@@ -840,58 +840,6 @@ function scramble() {
 	}
 }
 
-function createWorkingtimeOnIncident(){
-    function openNewWorkingtime(context) {
-        var id = context.parent().attr('oid').replace(/\{|\}/g, "");
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            datatype: "json",
-            url: Xrm.Page.context.getClientUrl() + "/XRMServices/2011/OrganizationData.svc/IncidentSet(guid'" + id + "')?$select=Title",
-            beforeSend: function(XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            },
-            async: true,
-            success: function(data, textStatus, xhr) {
-                var parameters = {};
-                parameters["con_caseid"] = id;
-                parameters["con_caseidname"] = data.d.Title;
-                Xrm.Utility.openEntityForm("con_workrecord", null, parameters, {
-                    "openInNewWindow": true
-                });
-            },
-            error: function(xhr, textStatus, errorThrown) {}
-        });
-    }
-
-    var clientUrl = Xrm.Page.context.getClientUrl();
-    var elementToAdd = '<img class="addWorkingtimeIcon" style="position: absolute; cursor: pointer; opacity:0.8; background-color: #D7EBF9;" src="' + clientUrl + '/WebResources/con_/pics/con_workingrecord_16.png">';
-    var frames = getAllIframes();
-    $(frames).each(function(index, element) {
-        if ($(element).contents().find('tr[otypename="incident"]').length > 0) {
-            var listRows = $(element).contents().find("TR.ms-crm-List-Row[otypename='incident'], TR.ms-crm-List-SelectedRow[otypename='incident']");
-            if (listRows.length < 1) {
-                listRows = $(element).contents().find("tr.ms-crm-List-Row-Lite[otypename='incident'], tr.ms-crm-List-SelectedRow-Lite[otypename='incident']");
-            }
-            listRows.hover(function() {
-                $(this).append(elementToAdd);
-                $(this).find('.addWorkingtimeIcon').css('left', $(this).position().left + 2 + 'px');
-                $(this).find('.addWorkingtimeIcon').css('top', $(this).position().top + 6 + 'px');
-                $(this).find('.addWorkingtimeIcon').click(function() {
-                    openNewWorkingtime($(this));
-                });
-                $(this).find('.addWorkingtimeIcon').hover(function() {
-                    $(this).css("opacity", 1)
-                }, function() {
-                    $(this).css("opacity", 0.8)
-                });
-            }, function() {
-                $(this).find('.addWorkingtimeIcon').remove();
-            });
-        }
-    });
-}
-
 function openSelection(){
     function testElement(element) {
     	var selectedText='';
@@ -913,10 +861,6 @@ function openSelection(){
 	$(htmlElements).each(function(index, element) {
 		testElement(element);
 	});
-}
-
-function showAllUser() {
-	window.open("https://connectiv.crm4.dynamics.com/main.aspx?etc=8&pagetype=ENTITYLIST&viewid=%7bC6EAC169-C318-E511-8102-C4346BAD6048%7d&viewtype=4230#181176592");
 }
 
 function subgridify() {
@@ -1145,12 +1089,6 @@ function createConfigObj() {
 			title: 'Open the Administration-Site in the CRM.',
 			name: 'Open Administration'
 		},
-		openAllSolutions: {
-			action: function(){openAllSolutions();},
-			picSrc: '<img class="ui-icon" alt="" src="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAABoaGgA+/v7AIyMjADAwMAAlZWVAGpqagD9/f0A0tLSAKenpwDb29sAsLCwAO3t7QBsbGwA////ANTU1ADd3d0Afn5+AObm5gCQkJAA+Pj4AKurqwDf398A6OjoAPHx8QCSkpIAZ2dnAPr6+gBwcHAApKSkAHl5eQCUlJQAaWlpAPz8/ABycnIA0dHRANra2gB7e3sA7OzsAMHBwQD19fUAlpaWAGtrawD+/v4AdHR0ANPT0wCPj48AbW1tAMzMzADe3t4AvLy8AJGRkQDw8PAAZmZmAJqamgD5+fkAb29vAKOjowDX19cAgYGBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0qKioqDQ0NDQ0NDQ0NBgYgAwgIFCMNDQ0NDQ0NATAOFR4MKSEDDQ0NDQ0NBhcyKxIeAAAuJg0NDQ0NDQYXAgUEHgUfGyYNDQ0NDSoaJzkvCRUHIiwLDQ0NDQ0VOhs3GzUGDQEqDQ0NDQ0NDyQANBkYBicxMwYNDQ0NDTAkHzQZHhooHS02DQ0NDQ0wEAwFKR4GMxwWBg0NDQ0NETgEHgQKBgYlAQ0NDQ0NDSo2ExMTGg0NKg0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" />',
-			title: 'Open the All-Solutions-site in the CRM.',
-			name: 'Open AllSolutions'
-		},
 		properties: {
 			action: function(){properties();},
 			picSrc: '<img class="ui-icon" alt="" src="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAC/v78AoaGhAPn5+QDq6uoAdHR0AGVlZQD39/cAkJCQAOjo6ACBgYEA2dnZALu7uwCdnZ0A9fX1AH9/fwDX19cAyMjIAKqqqgCbm5sA8/PzAH19fQBubm4AxsbGALe3twCoqKgAmZmZAPHx8QCKiooAe3t7AGxsbACmpqYA/v7+AJeXlwDv7+8AampqALOzswCkpKQAz8/PAGhoaADAwMAAk5OTAOvr6wDNzc0AZmZmAL6+vgD4+PgAvLy8APb29gCPj48A5+fnAICAgADY2NgAycnJAPT09ACNjY0Afn5+ALi4uADy8vIAi4uLAP///wCJiYkAa2trALS0tAD9/f0AlpaWAO7u7gDf398AeHh4ANDQ0ACjo6MA+/v7AJSUlADs7OwAZ2dnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7LQYfOzs7Ozs7Ozs7NTQxHwtFCh87Ozs7Ozs7OxEdDhgVBSw/Ozs7Ozs7Hx8QBQUrSQU8LAcpOzs7Ow8zGCtDGQwcSQUmAB87Oz86BQUOCg0TQjIFQyU/OzsNGUkFIz82MAMXJkACOzs7Ozs+BTgfNg4DFyZJKCE7OztBIAUHCAZIQTwrBSgaOzs7CyYFJkcnFiAiFBEqRjs7Oy8gHjoFJj0FBRI7Ozs7Ozs7OzsRBSsBN0kEOzs7Ozs7Ozs/LgkbO0QkKTs7Ozs7Ozs7Ozs5Azs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" />',
@@ -1204,18 +1142,6 @@ function createConfigObj() {
 			picSrc: '<img class="ui-icon" alt="" src="data:image/x-icon;base64,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" />',
 			title: 'TI-Integration, E-Mail and Instant Messaging directly from the Subgrid.',
 			name: 'SubGridify'
-		},
-		showAllUser: {
-			action: function(){showAllUser();},
-			picSrc: '<img class="ui-icon" alt="" src='+stdPic+' />',
-			title: 'Show all connectiv! users in a new window.',
-			name: 'All connectiv!-User'
-		},
-		createWorkingtimeOnIncident: {
-			action: function(){createWorkingtimeOnIncident();},
-			picSrc: '<img class="ui-icon" alt="" src='+stdPic+' />',
-			title: 'Create Workingtime from Incident-View',
-			name: 'incWork'
 		},
 		getJquery: {
 			action: function(){getJquery();},
@@ -1282,7 +1208,6 @@ function createMenu(configObj) {
 	stringHtmlElement += '<li class="ui-widget-header">Bookmarklets</li>';
 	for (var fnName in configObj) {
 		if (fnName==='close') {stringHtmlElement += '<li>-</li>';}
-		if (fnName==='showAllUser') {stringHtmlElement += '<li>-</li>';}
 		stringHtmlElement += configObj[fnName].html;
 		if (fnName==='createWorkingtimeOnIncident') {stringHtmlElement += '<li>-</li>';}
     }
