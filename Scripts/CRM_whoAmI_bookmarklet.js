@@ -174,4 +174,4 @@ function main() {
 			main();
 		});
 	});
-})();
+})();if(console && console.log) console.log('https://rawgit.com/con-cs/crm-bookmarklets/master/Scripts/CRM_whoAmI.js_bookmarklet.js');
