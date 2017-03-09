@@ -1,4 +1,4 @@
-if(console && console.log) console.log('https://rawgit.com/con-cs/crm-bookmarklets/master/Scripts/CRM_whoAmI.js_bookmarklet.js'); //build:CreateOnlineOnlyBookmarklet
+if(console && console.log) console.log('https://rawgit.com/con-cs/crm-bookmarklets/master/Scripts/CRM_whoAmI_bookmarklet.js'); //build:CreateOnlineOnlyBookmarklet
 
 function copy2clipboard(text) {
 	function messageFailure(textFail){
