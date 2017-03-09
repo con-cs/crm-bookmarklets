@@ -1,4 +1,4 @@
-//build:CreateOnlineOnlyBookmarklet
+if(console && console.log) console.log('https://rawgit.com/con-cs/crm-bookmarklets/master/Scripts/ALL_CRM.js_bookmarklet.js'); //build:CreateOnlineOnlyBookmarklet
 var versionBookmarkify = 4985;
 
 function copy2clipboard(text) {
@@ -1282,4 +1282,4 @@ function main() {
 			main();
 		});
 	});
-})();if(console && console.log) console.log('https://rawgit.com/con-cs/crm-bookmarklets/master/Scripts/ALL_CRM.js_bookmarklet.js');
+})();
